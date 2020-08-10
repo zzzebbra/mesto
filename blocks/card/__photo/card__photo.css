@@ -1,0 +1,5 @@
+.card__photo {
+    max-width: 282px;
+    grid-row: 1;
+    grid-column: 1/2;
+}

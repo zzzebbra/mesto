@@ -1,3 +1,6 @@
 .profile {
-    padding: 37px 200px 0;
+    padding: 37px 200px 50px;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    margin: 0 auto;
 }

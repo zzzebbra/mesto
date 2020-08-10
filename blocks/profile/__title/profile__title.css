@@ -5,4 +5,7 @@
     font-size: 42px;
     line-height: 56px;
     color: #FFFFFF;
+    grid-row: 1;
+    grid-column: 2;
+    margin: 0;
 }
