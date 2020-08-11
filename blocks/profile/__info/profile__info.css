@@ -11,3 +11,10 @@
         gap: 16px;
     }
 }
+@media screen and (max-width: 887px) {
+    .profile__info {
+        grid-template-columns: 100%;
+        grid-template-rows: 100px 30px 20px 50px;
+        gap: 16px;
+    }
+}

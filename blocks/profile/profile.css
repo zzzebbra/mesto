@@ -4,3 +4,9 @@
     grid-template-columns: 70% 30%;
     margin: 0 auto;
 }
+/* @media screen and (max-width: 887px) {
+    .profile {
+        grid-template-columns: 100%;
+
+    }
+} */
