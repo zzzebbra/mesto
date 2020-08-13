@@ -2,4 +2,5 @@
     max-width: 282px;
     grid-row: 1;
     grid-column: 1/2;
+    border-radius: 10px 10px 0 0;
 }

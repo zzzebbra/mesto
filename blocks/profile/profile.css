@@ -1,12 +1,14 @@
 .profile {
-    padding: 37px 200px 50px;
-    display: grid;
-    grid-template-columns: 70% 30%;
+    padding: 37px 0 50px;
+    display: flex;
+    align-items: center;
     margin: 0 auto;
+    max-width: 882px;
 }
-/* @media screen and (max-width: 887px) {
+@media screen and (max-width: 887px) {
     .profile {
-        grid-template-columns: 100%;
-
+        flex-direction: column;
+        align-items: center;
+        padding: 37px 0 36px;
     }
-} */
+}
