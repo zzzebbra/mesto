@@ -4,9 +4,17 @@
     border: 0;
     background: none;
     position: absolute;
-    top: 11%;
-    left: 71%;
+    top: -12%;
+    left: 98%;
 }
 .popup__close-button:hover {
     opacity: 0.8;
+}
+@media screen and (max-width: 505px) {
+    .popup__close-button {
+        width: 35px;
+        height: 35px;
+        top: -11%;
+        left: 94%;
+    }
 }

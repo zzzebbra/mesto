@@ -3,10 +3,17 @@
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     position: fixed;
-    top: 15%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 430px;
     height: 330px;
     display: flex;
     flex-direction: column;
+}
+@media screen and (max-width: 505px) {
+    .popup__container {
+        width: 280px;
+        height: 330px;
+    }
 }
