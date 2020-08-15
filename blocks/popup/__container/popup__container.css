@@ -8,8 +8,7 @@
     transform: translate(-50%, -50%);
     width: 430px;
     height: 330px;
-    display: flex;
-    flex-direction: column;
+
 }
 @media screen and (max-width: 505px) {
     .popup__container {
