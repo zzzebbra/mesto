@@ -6,4 +6,5 @@
     grid-template-rows: 282px 78px;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
