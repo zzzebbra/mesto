@@ -13,6 +13,8 @@ const cards = document.querySelector(".cards");
 const card = document.querySelector(".card-tempate").content;
 const cardTitle = document.querySelector(".popup__input_place-name");
 const cardUrl = document.querySelector(".popup__input_url");
+const cardCreateButton = document.querySelector(".popup__submit-button_place");
+//const likeButton = document.querySelector(".card__like");
 const cardsArr = [
   {
       name: 'Архыз',
@@ -44,7 +46,9 @@ function initialCard(name,link) {
   const cardContent = card.cloneNode(true);
   cardContent.querySelector(".card__text").textContent = name;
   cardContent.querySelector(".card__photo").src = link;
-  cards.append(cardContent)
+  const likeButton = cardContent.querySelector(".card__like");
+  likeButton.addEventListener('click', like);
+  cards.append(cardContent);
 }
 
 function renderCards(array) {
@@ -52,14 +56,20 @@ function renderCards(array) {
 }
 renderCards(cardsArr);
 
-function addCard(cardTitle.value, cardUrl.value) {
 
+function addCard(evt) {
+  evt.preventDefault();
+  const cardContentNew = card.cloneNode(true);
+  cardContentNew.querySelector(".card__text").textContent = cardTitle.value;
+  cardContentNew.querySelector(".card__photo").src = cardUrl.value;
+  cards.prepend(cardContentNew);
+  popupClose();
 }
 
 function popupProfileOpen() {
-    nameInput.value = profileTitle.textContent;
-    descriptionInput.value = profileSubTitle.textContent;
-    popupProfile.classList.add("popup_opened");
+  nameInput.value = profileTitle.textContent;
+  descriptionInput.value = profileSubTitle.textContent;
+  popupProfile.classList.add("popup_opened");
 }
 
 function popupClose(popup) {
@@ -73,10 +83,14 @@ function popupPlaceOpen() {
 }
 
 function formSubmitHandler(evt) {
-    evt.preventDefault();
-    profileTitle.textContent = nameInput.value;
-    profileSubTitle.textContent = descriptionInput.value;
-    popupClose();
+  evt.preventDefault();
+  profileTitle.textContent = nameInput.value;
+  profileSubTitle.textContent = descriptionInput.value;
+  popupClose();
+}
+
+function like(evt) {
+  evt.target.classList.toggle("card__like_active");
 }
 
 formElement.addEventListener('submit', formSubmitHandler);
@@ -84,3 +98,5 @@ editButton.addEventListener("click", popupProfileOpen);
 closeProfileButton.addEventListener("click", () =>{popupClose(popupProfile)});
 closePlaceButton.addEventListener("click", () =>{popupClose(popupPlace)});
 addButton.addEventListener('click', popupPlaceOpen);
+cardCreateButton.addEventListener('click', addCard);
+likeButton.addEventListener('click', 'like');
