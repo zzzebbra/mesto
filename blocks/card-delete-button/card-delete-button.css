@@ -4,10 +4,11 @@
   position: absolute;
   right: 16px;
   top: 18px;
-  z-index: 1;
   background-image: url(../../images/delete_icon.svg);
   background-repeat: no-repeat;
   background-position: center;
+  background-color: transparent;
+  border: none;
 }
 .card-delete-button:hover {
   opacity: 0.8;

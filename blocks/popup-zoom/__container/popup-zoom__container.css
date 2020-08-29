@@ -1,0 +1,10 @@
+.popup-zoom__container {
+  display: flex;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 75vw;
+  max-height: 75vh;
+  flex-wrap: wrap;
+}

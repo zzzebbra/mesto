@@ -1,0 +1,8 @@
+.popup-zoom__image {
+  max-width: 75vw;
+  max-height: 75vh;
+}
+.popup-zoom__image:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
