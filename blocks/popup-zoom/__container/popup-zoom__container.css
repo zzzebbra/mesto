@@ -4,7 +4,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  max-width: 75vw;
+  max-width: 830px;
   max-height: 75vh;
   flex-wrap: wrap;
 }

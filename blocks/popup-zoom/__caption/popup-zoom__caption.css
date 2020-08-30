@@ -6,5 +6,6 @@
   font-size: 12px;
   line-height: 15px;
   color: #FFFFFF;
-
+  position: absolute;
+  bottom: -35px;
 }
