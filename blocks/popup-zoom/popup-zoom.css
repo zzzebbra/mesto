@@ -1,16 +1,13 @@
 .popup-zoom {
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   z-index: 1;
   position: fixed;
-  background: rgba(0,0,0,.75);
-  justify-content: center;
-  align-items: center;
-  display: flex;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
   visibility: hidden;
-  opacity: 0;
   transition: opacity .4s ease-in-out;
   -webkit-transition: opacity .4s ease-in-out;
   -moz-transition: opacity .4s ease-in-out

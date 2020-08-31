@@ -14,7 +14,6 @@ const cards = document.querySelector(".cards");
 const card = document.querySelector(".card-template").content;
 const cardTitle = document.querySelector(".popup__input_place-name");
 const cardUrl = document.querySelector(".popup__input_url");
-const cardCreateButton = document.querySelector(".popup__submit-button_place");
 const popupZoom = document.querySelector(".popup-zoom");
 const popupCardCaption = popupZoom.querySelector(".popup-zoom__caption");
 const popupCardImage = popupZoom.querySelector(".popup-zoom__image");
@@ -50,13 +49,13 @@ function addCard(name, link) {
   const cardContentNew = card.cloneNode(true);
   cardContentNew.querySelector(".card__text").textContent = name;
   cardContentNew.querySelector(".card__photo").src = link;
+  cardContentNew.querySelector(".card__photo").alt = name;
   const deleteButton = cardContentNew.querySelector(".card__delete-button");
   const likeButton = cardContentNew.querySelector(".card__like");
   const popupCardImage = cardContentNew.querySelector(".card__photo");
-  const popupCardCaption = cardContentNew.querySelector(".card__text");
   likeButton.addEventListener('click', like);
   deleteButton.addEventListener('click', deleteCard);
-  popupCardImage.addEventListener('click', () => zoomCardPhoto(name, link));
+  popupCardImage.addEventListener('click', () => openPopupZoom(name, link));
   return cardContentNew;
 }
 
@@ -90,7 +89,7 @@ function openPopupPlace() {
   openPopup(popupPlace);
 }
 
-function formSubmitHandler(evt) {
+function submitFormProfile(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileSubTitle.textContent = descriptionInput.value;
@@ -106,16 +105,17 @@ function deleteCard(evt) {
 }
 
 function closePopupZoom() {
-  popupZoom.classList.remove("popup-zoom_opened");
+  closePopup(popupZoom);
 }
 
-function zoomCardPhoto(name, link) {
-  popupZoom.classList.add("popup-zoom_opened");
+function openPopupZoom(name, link) {
+  openPopup(popupZoom)
   popupCardCaption.textContent = name;
   popupCardImage.src = link;
+  popupCardImage.alt = name;
 }
 
-profileForm.addEventListener('submit', formSubmitHandler);
+profileForm.addEventListener('submit', submitFormProfile);
 editButton.addEventListener("click", openPopupProfile);
 closeProfileButton.addEventListener("click", () => { closePopup(popupProfile) });
 closePlaceButton.addEventListener("click", () => { closePopup(popupPlace) });

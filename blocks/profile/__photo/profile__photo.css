@@ -1,17 +1,17 @@
 .profile__photo {
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    margin: 0 30px 0 0;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin: 0 30px 0 0;
 }
 @media screen and (max-width: 1060px) {
-    .profile__photo {
-        width: 100px;
-        height: 100px;
-    }
+  .profile__photo {
+    width: 100px;
+    height: 100px;
+  }
 }
 @media screen and (max-width: 887px) {
-    .profile__photo {
-        margin: 0 0 10px 0;
-    }
-}    
+  .profile__photo {
+    margin: 0 0 10px 0;
+  }
+}

@@ -1,70 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="pages/index.css">
-    <title>Mesto</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="pages/index.css">
+  <title>Mesto</title>
 </head>
+
 <body class="body">
   <div class="page">
     <div class="header">
-        <img class="logo" src="./images/logo_mesto.svg" alt="логотип">
+      <img class="logo" src="./images/logo_mesto.svg" alt="логотип">
     </div>
     <main class="content">
-        <section class="profile">
-            <img class="profile__photo" src="./images/profile_photo.jpg" alt="аватар">
-            <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__edit-button" type="button"></button>
-            <h2 class="profile__subtitle">Исследователь океана</h2>
-            </div>
-                <button class="profile__add-button"></button>
-        </section>
-        <section class="cards">
-        </section>
+      <section class="profile">
+        <img class="profile__photo" src="./images/profile_photo.jpg" alt="аватар">
+        <div class="profile__info">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button" type="button"></button>
+          <h2 class="profile__subtitle">Исследователь океана</h2>
+        </div>
+        <button class="profile__add-button"></button>
+      </section>
+      <section class="cards">
+      </section>
     </main>
     <footer class="footer">
-        <p class="footer__text">© 2020 Mesto Russia</p>
+      <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
     <div class="popup popup_profile">
-        <div class="popup__container">
+      <div class="popup__container">
         <h2 class="popup__header">Редактировать профиль</h2>
         <form class="popup__form" action="#" name="popup_form">
-            <button type="button" class="popup__close-button"></button>
-            <input type="text" name="name" class="popup__input popup__input_name" placeholder="Имя">
-            <input type="text" name="description" class="popup__input popup__input_description" placeholder="Описание">
-            <button type="submit" class="popup__submit-button popup__submit-button_profile">Сохранить</button>
+          <button type="button" class="popup__close-button"></button>
+          <input type="text" name="name" class="popup__input popup__input_name" placeholder="Имя">
+          <input type="text" name="description" class="popup__input popup__input_description" placeholder="Описание">
+          <button type="submit" class="popup__submit-button popup__submit-button_profile">Сохранить</button>
         </form>
-        </div>
+      </div>
     </div>
-    </div>
-    <div class="popup popup_new-place">
-      <div class="popup__container">
+  </div>
+  <div class="popup popup_new-place">
+    <div class="popup__container">
       <h2 class="popup__header">Новое место</h2>
       <form class="popup__form" action="#" name="popup_form popup_form_place">
-          <button type="button" class="popup__close-button"></button>
-          <input type="text" name="place-name" class="popup__input popup__input_place-name" placeholder="Название">
-          <input type="url" name="place-url" class="popup__input popup__input_url" placeholder="Ссылка на картинку">
-          <button type="submit" class="popup__submit-button popup__submit-button_place">Создать</button>
+        <button type="button" class="popup__close-button"></button>
+        <input type="text" name="place-name" class="popup__input popup__input_place-name" placeholder="Название">
+        <input type="url" name="place-url" class="popup__input popup__input_url" placeholder="Ссылка на картинку">
+        <button type="submit" class="popup__submit-button popup__submit-button_place">Создать</button>
       </form>
-      </div>
+    </div>
   </div>
   <div class="popup-zoom">
     <div class="popup-zoom__container">
-    <img src="" class="popup-zoom__image" alt="Фото места.">
-    <button type="button" class="popup-zoom__close-button"></button>
-    <p class="popup-zoom__caption"></p>
+      <img src="" class="popup-zoom__image" alt="Фото места.">
+      <button type="button" class="popup-zoom__close-button"></button>
+      <p class="popup-zoom__caption"></p>
     </div>
   </div>
+  <!-- Добрый день. Исправила форматирование везде, где нашла. Если что-то осталось - укажите конкретно, пожалуйста. Спасибо. -->
   <template class="card-template">
-  <div class="card">
-    <img src="" class="card__photo" alt="Фото места.">
-    <button class="card__delete-button"></button>
-    <h2 class="card__text"></h2>
-    <button type="button" class="card__like"></button>
-  </div>
-</template>
-    <script src="./scripts/index.js"></script>
+    <div class="card">
+      <img src="" class="card__photo" alt="Фото места.">
+      <button class="card__delete-button"></button>
+      <h2 class="card__text"></h2>
+      <button type="button" class="card__like"></button>
+    </div>
+  </template>
+  <script src="./scripts/index.js"></script>
 </body>
+
 </html>
