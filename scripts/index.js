@@ -47,12 +47,12 @@ const cardsArr = [
 
 function addCard(name, link) {
   const cardContentNew = card.cloneNode(true);
+  const popupCardImage = cardContentNew.querySelector(".card__photo");
   cardContentNew.querySelector(".card__text").textContent = name;
-  cardContentNew.querySelector(".card__photo").src = link;
-  cardContentNew.querySelector(".card__photo").alt = name;
+  popupCardImage.src = link;
+  popupCardImage.alt = name;
   const deleteButton = cardContentNew.querySelector(".card__delete-button");
   const likeButton = cardContentNew.querySelector(".card__like");
-  const popupCardImage = cardContentNew.querySelector(".card__photo");
   likeButton.addEventListener('click', like);
   deleteButton.addEventListener('click', deleteCard);
   popupCardImage.addEventListener('click', () => openPopupZoom(name, link));
