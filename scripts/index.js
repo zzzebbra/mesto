@@ -115,7 +115,7 @@ function openPopupZoom(name, link) {
   popupCardImage.alt = name;
 }
 
-function
+function newFunction
 
 profileForm.addEventListener('submit', submitFormProfile);
 editButton.addEventListener("click", openPopupProfile);
