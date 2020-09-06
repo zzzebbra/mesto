@@ -62,6 +62,8 @@ function addCard(name, link) {
 function submitAddCard(evt) {
   evt.preventDefault();
   cards.prepend(addCard(cardTitle.value, cardUrl.value));
+  cardTitle.value="";
+  cardUrl.value="";
   closePopup(popupPlace);
 }
 
@@ -83,10 +85,22 @@ function openPopupProfile() {
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileSubTitle.textContent;
   openPopup(popupProfile);
+  document.addEventListener('keyup', (evt) => {
+    if (evt.key === "Escape") { closePopup(popupProfile) }
+  });
+  popupProfile.addEventListener('mousedown', (evt) => {
+    if (evt.target === popupProfile) { closePopup(popupProfile); }
+  })
 }
 
 function openPopupPlace() {
   openPopup(popupPlace);
+  document.addEventListener('keyup', (evt) => {
+    if (evt.key === "Escape") { closePopup(popupPlace) }
+  });
+  popupPlace.addEventListener('mousedown', (evt) => {
+    if (evt.target === popupPlace) { closePopup(popupPlace); }
+  })
 }
 
 function submitFormProfile(evt) {
@@ -113,9 +127,13 @@ function openPopupZoom(name, link) {
   popupCardCaption.textContent = name;
   popupCardImage.src = link;
   popupCardImage.alt = name;
+    document.addEventListener('keyup', (evt) => {
+    if (evt.key === "Escape") { closePopup(popupZoom) }
+  });
+  popupZoom.addEventListener('mousedown', (evt) => {
+    if (evt.target === popupZoom) { closePopup(popupZoom); }
+  })
 }
-
-function newFunction
 
 profileForm.addEventListener('submit', submitFormProfile);
 editButton.addEventListener("click", openPopupProfile);
