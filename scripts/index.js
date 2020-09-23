@@ -17,8 +17,12 @@ const nameInput = document.querySelector(".popup__input_name");
 const descriptionInput = document.querySelector(".popup__input_description");
 const cards = document.querySelector(".cards");
 const cardTitle = document.querySelector(".popup__input_place-name");
+const cardImage = document.querySelector('.card__photo');
 const cardUrl = document.querySelector(".popup__input_url");
 const popupZoom = document.querySelector(".popup-zoom");
+const popupZoomImage = document.querySelector(".popup-zoom__image");
+const popupZoomCaption = document.querySelector(".popup-zoom__caption");
+
 const popupZoomCloseButton = popupZoom.querySelector(".popup-zoom__close-button");
 const cardsArr = [
   {
@@ -92,13 +96,20 @@ function closePopupByMouse(evt) {
 function openPopupProfile() {
   nameInput.value = profileTitle.textContent;
   descriptionInput.value = profileSubTitle.textContent;
-  () => editForm.checkButtonState(profileForm);
+  editForm.checkButtonState(profileForm);
   openPopup(popupProfile);
 }
 
 function openPopupPlace() {
-  () => addForm.checkButtonState(placeForm);
+  addForm.checkButtonState(placeForm);
   openPopup(popupPlace);
+}
+
+function openPopupZoom(name, link) {
+  popupZoomCaption.textContent = name;
+  popupZoomImage.alt = name;
+  popupZoomImage.src = link;
+  openPopup(popupZoom);
 }
 
 function submitFormProfile(evt) {
@@ -120,3 +131,5 @@ closePlaceButton.addEventListener("click", closeAnyPopup);
 addButton.addEventListener('click', openPopupPlace);
 placeFormContainer.addEventListener('submit', submitAddCard);
 popupZoomCloseButton.addEventListener('click', closeAnyPopup);
+
+export default openPopupZoom
