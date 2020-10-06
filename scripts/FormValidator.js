@@ -8,7 +8,7 @@ class FormValidator {
     this.errorClass = errorClass;
   }
 
-showInputError  (formElement, inputElement, errorMessage) {
+showInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.add(this.inputErrorClass);
     errorElement.textContent = errorMessage;
@@ -68,7 +68,7 @@ setEventListeners(formElement) {
   });
 };
 
-enableValidation(){
+enableValidation() {
   const formList = Array.from(document.querySelectorAll(this.formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {

@@ -1,10 +1,8 @@
-import openPopupZoom from './index.js'
-
-
 class Card {
-  constructor(name, link) {
+  constructor( name, link, handleCardClick ) {
     this.name = name;
     this.link = link;
+    this.handleCardClick = handleCardClick;
   }
 
   _cardContentNew() {
@@ -21,7 +19,7 @@ class Card {
     this._element.querySelector('.card__text').textContent = this.name;
     this._element.querySelector(".card__like").addEventListener('click', this.like);
     this._element.querySelector(".card__delete-button").addEventListener('click', this.deleteCard);
-    this._element.querySelector(".card__photo").addEventListener('click', () => openPopupZoom(this.name, this.link));
+    this._element.querySelector(".card__photo").addEventListener('click', () => this.handleCardClick(this.name, this.link));
 
     return this._element;
   }

@@ -1,5 +1,8 @@
 import FormValidator from './FormValidator.js';
 import Card from './Card.js';
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWitnImage.js';
+import Section from './Section.js'
 
 const popupProfile = document.querySelector(".popup_profile");
 const popupPlace = document.querySelector(".popup_new-place");
@@ -17,13 +20,12 @@ const nameInput = document.querySelector(".popup__input_name");
 const descriptionInput = document.querySelector(".popup__input_description");
 const cards = document.querySelector(".cards");
 const cardTitle = document.querySelector(".popup__input_place-name");
-const cardImage = document.querySelector('.card__photo');
+// const cardImage = document.querySelector('.card__photo');
 const cardUrl = document.querySelector(".popup__input_url");
 const popupZoom = document.querySelector(".popup-zoom");
-const popupZoomImage = document.querySelector(".popup-zoom__image");
-const popupZoomCaption = document.querySelector(".popup-zoom__caption");
-
-const popupZoomCloseButton = popupZoom.querySelector(".popup-zoom__close-button");
+// const popupZoomImage = document.querySelector(".popup-zoom__image");
+// const popupZoomCaption = document.querySelector(".popup-zoom__caption");
+// const popupZoomCloseButton = popupZoom.querySelector(".popup-zoom__close-button");
 const cardsArr = [
   {
     name: 'Архыз',
@@ -51,12 +53,19 @@ const cardsArr = [
   }
 ];
 
-cardsArr.reverse().forEach((item) => {
-  const card = new Card(item.name, item.link);
-  const cardElement = card.generateCard();
-  cards.prepend(cardElement);
-});
+const instancePopupWithImage = new PopupWithImage('.popup-zoom');
 
+const cardSection = new Section({
+  items: cardsArr,
+  renderer: (item) => {
+    const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
+    const cardElement = card.generateCard();
+    cardSection.addItem(cardElement);
+  }
+},
+".cards");
+
+cardSection.renderItems();
 
 function submitAddCard(evt) {
   evt.preventDefault();
@@ -66,31 +75,6 @@ function submitAddCard(evt) {
   cardTitle.value = "";
   cardUrl.value = "";
   closeAnyPopup();
-}
-
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener('keyup', closeAtEsc);
-  popup.addEventListener('mousedown', closePopupByMouse);
-}
-
-function removeEventListenersFromPopup() {
-  document.removeEventListener('keyup', closeAtEsc);
-}
-
-function closeAnyPopup() {
-  const popupToClose = document.querySelector(".popup_opened");
-  removeEventListenersFromPopup();
-  if (popupToClose != null) popupToClose.classList.remove("popup_opened");
-}
-
-function closeAtEsc(evt) {
-  if (evt.key === "Escape") { closeAnyPopup() }
-};
-
-function closePopupByMouse(evt) {
-  const currentPopup = document.querySelector(".popup_opened");
-  if (evt.target === currentPopup) { closeAnyPopup(); currentPopup.removeEventListener('mousedown', closePopupByMouse) }
 }
 
 function openPopupProfile() {
@@ -103,13 +87,6 @@ function openPopupProfile() {
 function openPopupPlace() {
   addForm.checkButtonState(placeForm);
   openPopup(popupPlace);
-}
-
-function openPopupZoom(name, link) {
-  popupZoomCaption.textContent = name;
-  popupZoomImage.alt = name;
-  popupZoomImage.src = link;
-  openPopup(popupZoom);
 }
 
 function submitFormProfile(evt) {
@@ -126,10 +103,7 @@ addForm.enableValidation();
 
 profileFormContainer.addEventListener('submit', submitFormProfile);
 editButton.addEventListener("click", openPopupProfile);
-closeProfileButton.addEventListener("click", closeAnyPopup);
-closePlaceButton.addEventListener("click", closeAnyPopup);
+//closeProfileButton.addEventListener("click", closeAnyPopup);
+//closePlaceButton.addEventListener("click", closeAnyPopup);
 addButton.addEventListener('click', openPopupPlace);
 placeFormContainer.addEventListener('submit', submitAddCard);
-popupZoomCloseButton.addEventListener('click', closeAnyPopup);
-
-export default openPopupZoom
