@@ -49,16 +49,13 @@ const cardsArr = [
 const instancePopupWithImage = new PopupWithImage('.popup-zoom');
 const instanceUserInfo = new UserInfo( {name: profileTitle.textContent, description: profileSubTitle.textContent} );
 const popupProfileForm = new PopupWithForm('.popup_profile', () => {
-
-
-  popupProfileForm.close();
-});
-const popupPlaceForm = new PopupWithForm('.popup_new-place', () => {
   instanceUserInfo.setUserInfo({ nameInput: nameInput.value, descriptionInput: descriptionInput.value});
   profileTitle.textContent = instanceUserInfo.getUserInfo().name;
   profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
-  popupPlaceForm.close();
+  popupProfileForm.close();
 });
+
+const popupPlaceForm = new PopupWithForm('.popup_new-place', () => { submitAddCard(evt)});
 
 const cardSection = new Section({
   items: cardsArr,
@@ -74,7 +71,7 @@ cardSection.renderItems();
 
 function submitAddCard(evt) {
   evt.preventDefault();
-  const card = new Card(cardTitle.value, cardUrl.value);
+  const card = new Card(cardTitle.value, cardUrl.value, instancePopupWithImage.open.bind(instancePopupWithImage));
   const cardElement = card.generateCard();
   cards.prepend(cardElement);
   cardTitle.value = "";
@@ -82,7 +79,8 @@ function submitAddCard(evt) {
   popupPlaceForm.close();
 }
 
-function editButtonHandler() {
+function editButtonHandler(evt) {
+  evt.preventDefault();
   nameInput.value = instanceUserInfo.getUserInfo().name;
   descriptionInput.value = instanceUserInfo.getUserInfo().description;
   editForm.checkButtonState(profileForm);
