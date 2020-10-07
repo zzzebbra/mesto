@@ -14,12 +14,17 @@ export default class PopupWithImage extends Popup {
     popupZoomImage.src = link;
   }
 
-  removeEventListenersFromPopup(){
-    super.removeEventListenersFromPopup();
-  }
   close() {
     super.close();
+    this.removeEventListenersFromPopup();
   }
+
+  removeEventListenersFromPopup() {
+    const popupZoomTemp = document.querySelector(".popup-zoom");
+    const closePopupButton = popupZoomTemp.querySelector(".popup__close-button");
+    closePopupButton.removeEventListener('keyup', this._handleEscClose);
+  }
+
   setEventListeners() {
     super.setEventListeners();
     const popupZoomTemp = document.querySelector(".popup-zoom");

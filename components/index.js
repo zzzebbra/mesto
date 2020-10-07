@@ -1,8 +1,9 @@
 import FormValidator from './FormValidator.js';
 import Card from './Card.js';
-import Popup from './Popup.js';
-import PopupWithImage from './PopupWitnImage.js';
-import Section from './Section.js'
+import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage.js';
+import Section from './Section.js';
+import UserInfo from './UserInfo.js';
 
 const popupProfile = document.querySelector(".popup_profile");
 const popupPlace = document.querySelector(".popup_new-place");
@@ -10,22 +11,14 @@ const profileForm = popupProfile.querySelector(".popup__form");
 const placeForm = popupPlace.querySelector(".popup__form");
 const addButton = document.querySelector(".profile__add-button");
 const editButton = document.querySelector(".profile__edit-button");
-const closeProfileButton = popupProfile.querySelector(".popup__close-button");
-const closePlaceButton = popupPlace.querySelector(".popup__close-button");
 const profileTitle = document.querySelector(".profile__title");
 const profileSubTitle = document.querySelector(".profile__subtitle");
-const profileFormContainer = popupProfile.querySelector(".popup__container");
 const placeFormContainer = popupPlace.querySelector(".popup__container");
 const nameInput = document.querySelector(".popup__input_name");
 const descriptionInput = document.querySelector(".popup__input_description");
 const cards = document.querySelector(".cards");
 const cardTitle = document.querySelector(".popup__input_place-name");
-// const cardImage = document.querySelector('.card__photo');
 const cardUrl = document.querySelector(".popup__input_url");
-const popupZoom = document.querySelector(".popup-zoom");
-// const popupZoomImage = document.querySelector(".popup-zoom__image");
-// const popupZoomCaption = document.querySelector(".popup-zoom__caption");
-// const popupZoomCloseButton = popupZoom.querySelector(".popup-zoom__close-button");
 const cardsArr = [
   {
     name: 'Архыз',
@@ -54,6 +47,18 @@ const cardsArr = [
 ];
 
 const instancePopupWithImage = new PopupWithImage('.popup-zoom');
+const instanceUserInfo = new UserInfo( {name: profileTitle.textContent, description: profileSubTitle.textContent} );
+const popupProfileForm = new PopupWithForm('.popup_profile', () => {
+
+
+  popupProfileForm.close();
+});
+const popupPlaceForm = new PopupWithForm('.popup_new-place', () => {
+  instanceUserInfo.setUserInfo({ nameInput: nameInput.value, descriptionInput: descriptionInput.value});
+  profileTitle.textContent = instanceUserInfo.getUserInfo().name;
+  profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
+  popupPlaceForm.close();
+});
 
 const cardSection = new Section({
   items: cardsArr,
@@ -74,26 +79,19 @@ function submitAddCard(evt) {
   cards.prepend(cardElement);
   cardTitle.value = "";
   cardUrl.value = "";
-  closeAnyPopup();
+  popupPlaceForm.close();
 }
 
-function openPopupProfile() {
-  nameInput.value = profileTitle.textContent;
-  descriptionInput.value = profileSubTitle.textContent;
+function editButtonHandler() {
+  nameInput.value = instanceUserInfo.getUserInfo().name;
+  descriptionInput.value = instanceUserInfo.getUserInfo().description;
   editForm.checkButtonState(profileForm);
-  openPopup(popupProfile);
+  popupProfileForm.open();
 }
 
-function openPopupPlace() {
+function addButtonHandler() {
   addForm.checkButtonState(placeForm);
-  openPopup(popupPlace);
-}
-
-function submitFormProfile(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = nameInput.value;
-  profileSubTitle.textContent = descriptionInput.value;
-  closeAnyPopup();
+  popupPlaceForm.open();
 }
 
 const editForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
@@ -101,9 +99,7 @@ const addForm =  new FormValidator('.popup__form', '.popup__input', '.popup__sub
 editForm.enableValidation();
 addForm.enableValidation();
 
-profileFormContainer.addEventListener('submit', submitFormProfile);
-editButton.addEventListener("click", openPopupProfile);
-//closeProfileButton.addEventListener("click", closeAnyPopup);
-//closePlaceButton.addEventListener("click", closeAnyPopup);
-addButton.addEventListener('click', openPopupPlace);
+
+editButton.addEventListener("click", editButtonHandler);
+addButton.addEventListener('click', addButtonHandler);
 placeFormContainer.addEventListener('submit', submitAddCard);

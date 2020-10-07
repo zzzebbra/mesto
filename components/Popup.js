@@ -15,14 +15,9 @@ export default class Popup {
     const currentPopup = document.querySelector(".popup_opened");
     if (evt.target === currentPopup) { this.close(); currentPopup.removeEventListener('mousedown', this._closePopupByMouse) }
   }
-  removeEventListenersFromPopup() {
-    const popupZoomTemp = document.querySelector(".popup-zoom");
-    const closePopupButton = popupZoomTemp.querySelector(".popup__close-button");
-    closePopupButton.removeEventListener('keyup', this._handleEscClose);
-  }
+
   close() {
     const popupToClose = document.querySelector(".popup_opened");
-    this.removeEventListenersFromPopup();
     if (popupToClose != null) popupToClose.classList.remove("popup_opened");
   }
 
