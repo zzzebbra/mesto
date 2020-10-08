@@ -11,14 +11,12 @@ class Card {
   }
 
   generateCard() {
-    // Запишем разметку в приватное поле _element.
-    // Так у других элементов появится доступ к ней.
     this._element = this._cardContentNew();
 
     this._element.querySelector('.card__photo').src = this.link;
     this._element.querySelector('.card__text').textContent = this.name;
     this._element.querySelector(".card__like").addEventListener('click', this.like);
-    this._element.querySelector(".card__delete-button").addEventListener('click', this.deleteCard);
+    this._element.querySelector(".card__delete-button").addEventListener('click', this.deleteCard.bind(this));
     this._element.querySelector(".card__photo").addEventListener('click', () => this.handleCardClick(this.name, this.link));
 
     return this._element;
@@ -28,8 +26,8 @@ class Card {
     evt.target.classList.toggle("card__like_active");
   }
 
-  deleteCard(evt) {
-    evt.target.closest(".card").remove();
+  deleteCard() {
+    this._element.closest(".card").remove();
   }
 
 }
