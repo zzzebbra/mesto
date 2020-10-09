@@ -1,6 +1,8 @@
 export default class Popup {
   constructor(popup) {
     this._popup = document.querySelector(popup);
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._closePopupByMouse = this._closePopupByMouse.bind(this);
   }
   open() {
     this._popup.classList.add("popup_opened");
@@ -12,18 +14,27 @@ export default class Popup {
   }
 
   _closePopupByMouse(evt) {
+    console.log("close by mouse click")
     const currentPopup = document.querySelector(".popup_opened");
-    if (evt.target === currentPopup) { this.close(); currentPopup.removeEventListener('mousedown', this._closePopupByMouse) }
+    if (evt.target === currentPopup) { this.close() }
   }
 
   close() {
+    this.removeEventListenersFromPopup();
     const popupToClose = document.querySelector(".popup_opened");
     if (popupToClose != null) popupToClose.classList.remove("popup_opened");
+
   }
 
   setEventListeners() {
     const currentPopup = document.querySelector(".popup_opened");
-    document.addEventListener('keyup', this._handleEscClose.bind(this));
-    currentPopup.addEventListener('mousedown', this._closePopupByMouse.bind(this));
+    currentPopup.addEventListener('mouseup', this._closePopupByMouse);
+    document.addEventListener('keyup', this._handleEscClose);
+  }
+
+  removeEventListenersFromPopup() {
+    const currentPopup = document.querySelector(".popup_opened");
+    currentPopup.removeEventListener('mouseup', this._closePopupByMouse);
+    document.removeEventListener('keyup', this._handleEscClose);
   }
 }

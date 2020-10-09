@@ -4,7 +4,9 @@ export default class PopupWithForm extends Popup {
   constructor(popup, submitForm) {
     super(popup);
     this._submitForm = submitForm;
+    this.close = this.close.bind(this);
     this.setEventListeners = this.setEventListeners.bind(this);
+    this.removeEventListenersFromPopup = this.removeEventListenersFromPopup.bind(this);
   }
 
   _getInputValues() {
@@ -22,7 +24,6 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this.removeEventListenersFromPopup();
     this.nameInput = "";
     this.descriptionInput = "";
   }
@@ -39,8 +40,9 @@ export default class PopupWithForm extends Popup {
   }
 
   removeEventListenersFromPopup() {
+    super.removeEventListenersFromPopup();
     const popupProfileTemp = document.querySelector(".popup_profile");
     const closeProfileButton = popupProfileTemp.querySelector(".popup__close-button");
-    closeProfileButton.removeEventListener('keyup', this._handleEscClose);
+    closeProfileButton.removeEventListener('click', this.close);
   }
 }

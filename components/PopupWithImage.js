@@ -3,6 +3,9 @@ import Popup from './Popup.js'
 export default class PopupWithImage extends Popup {
   constructor(popup) {
     super(popup);
+    this.close = this.close.bind(this);
+    this.setEventListeners = this.setEventListeners.bind(this);
+    this.removeEventListenersFromPopup = this.removeEventListenersFromPopup.bind(this);
   }
 
   open(name, link) {
@@ -16,19 +19,19 @@ export default class PopupWithImage extends Popup {
 
   close() {
     super.close();
-    this.removeEventListenersFromPopup();
-  }
-
-  removeEventListenersFromPopup() {
-    const popupZoomTemp = document.querySelector(".popup-zoom");
-    const closePopupButton = popupZoomTemp.querySelector(".popup__close-button");
-    closePopupButton.removeEventListener('keyup', this._handleEscClose);
   }
 
   setEventListeners() {
     super.setEventListeners();
     const popupZoomTemp = document.querySelector(".popup-zoom");
     const closePopupButton = popupZoomTemp.querySelector(".popup__close-button");
-    closePopupButton.addEventListener('click', this.close.bind(this));
+    closePopupButton.addEventListener('click', this.close);
+  }
+
+  removeEventListenersFromPopup() {
+    super.removeEventListenersFromPopup();
+    const popupZoomTemp = document.querySelector(".popup-zoom");
+    const closePopupButton = popupZoomTemp.querySelector(".popup__close-button");
+    closePopupButton.removeEventListener('click', this.close);
   }
 }
