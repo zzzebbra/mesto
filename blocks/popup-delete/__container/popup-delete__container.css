@@ -1,4 +1,6 @@
-.popup__container {
+.popup-delete__container {
+  width: 430px;
+  height: 181px;
   background: #FFFFFF;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
@@ -6,13 +8,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 430px;
-  height: 330px;
 }
 
 @media screen and (max-width: 505px) {
-  .popup__container {
+  .popup-delete__container {
     width: 280px;
-    height: 330px;
+    height: 150px;
   }
 }

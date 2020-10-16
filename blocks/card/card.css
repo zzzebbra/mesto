@@ -3,7 +3,7 @@
   border-radius: 10px;
   display: grid;
   grid-template-columns: 220px 41px;
-  grid-template-rows: 282px 78px;
+  grid-template-rows: 282px 48px 30px;
   align-items: center;
   justify-content: space-between;
   position: relative;

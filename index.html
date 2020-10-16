@@ -11,11 +11,14 @@
 <body class="body">
   <div class="page">
     <div class="header">
-      <img class="logo" src="./images/logo_mesto.svg" alt="логотип">
+      <img class="logo" src="./images/logo_mesto.svg" alt="Логотип">
     </div>
     <main class="content">
       <section class="profile">
-        <img class="profile__photo" src="./images/profile_photo.jpg" alt="аватар">
+        <div class="profile__photo-container">
+        <img class="profile__photo" src="./images/profile_photo.jpg" alt="Аватар">
+        <img class="profile__photo-edit-button" src="/images/edit_profile-pic.svg" alt="Редактировать.">
+      </div>
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <button class="profile__edit-button" type="button"></button>
@@ -68,12 +71,29 @@
       <p class="popup-zoom__caption"></p>
     </div>
   </div>
+  <div class="popup-delete">
+    <div class="popup-delete__container">
+      <h2 class="popup-delete__header">Вы уверены?</h2>
+      <button type="button" class="popup-delete__close-button"></button>
+      <button type="submit" class="popup-delete__submit-button">Да</button>
+    </div>
+  </div>
+  <div class="popup-userpic">
+    <div class="popup-userpic__container">
+      <h2 class="popup-userpic__header">Обновить аватар</h2>
+      <button type="button" class="popup-userpic__close-button"></button>
+      <input type="url" name="userpic-url" id="userpic-url" class="popup__input popup__input_url popup-userpic__input"
+        placeholder="Ссылка на картинку" required>
+      <button type="submit" class="popup__submit-button popup-userpic__submit-button">Сохранить</button>
+    </div>
+  </div>
   <template class="card-template">
     <div class="card">
       <img src="/" class="card__photo" alt="Фото места.">
       <button class="card__delete-button"></button>
       <h2 class="card__text"></h2>
       <button type="button" class="card__like"></button>
+      <p class="card__like-counter">0</p>
     </div>
   </template>
   <!-- <script type="module" src="./components/index.js"></script>

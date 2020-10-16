@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import Section from './Section.js';
 import UserInfo from './UserInfo.js';
+import Api from './Api.js';
 
 const popupProfile = document.querySelector(".popup_profile");
 const popupPlace = document.querySelector(".popup_new-place");
@@ -21,32 +22,81 @@ const descriptionInput = document.querySelector(".popup__input_description");
 const cards = document.querySelector(".cards");
 const cardTitle = document.querySelector(".popup__input_place-name");
 const cardUrl = document.querySelector(".popup__input_url");
-const cardsArr = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+// const cardsArr = [
+//   {
+//     name: 'Архыз',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+//   },
+//   {
+//     name: 'Челябинская область',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+//   },
+//   {
+//     name: 'Иваново',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+//   },
+//   {
+//     name: 'Камчатка',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+//   },
+//   {
+//     name: 'Холмогорский район',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+//   },
+//   {
+//     name: 'Байкал',
+//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+//   }
+// ];
+
+const BaseUrl = "https://mesto.nomoreparties.co/v1/cohort-16/";
+const token = 'ecd5d904-ba49-4381-9016-a76df3cbb46c';
+
+const api = new Api(BaseUrl, token);
+
+api.getCards()
+  .then((result) => {
+    const cardSection = new Section({
+      items: result,
+      renderer: (item) => {
+        const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
+        const cardElement = card.generateCard();
+        cardSection.addItem(cardElement);
+      }
+    },
+      ".cards");
+    cardSection.renderItems();
+  });
+
+// api.getUserInfo();
+// api.setUserInfo();
+// api.addNewCard();
+
+// function getCards() {
+//   fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
+//     method: 'GET',
+//     headers: {
+//       authorization: 'ecd5d904-ba49-4381-9016-a76df3cbb46c'
+//     }
+//   })
+//     .then(res => res.json())
+//     .then((result) => {
+//       console.log(result);
+
+//        const cardSection = new Section({
+//         items: result,
+//         renderer: (item) => {
+//           const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
+//           const cardElement = card.generateCard();
+//           cardSection.addItem(cardElement);
+//         }
+//       },
+//       ".cards");
+//       cardSection.renderItems();
+//   });
+// }
+// getCards();
+
 
 const instancePopupWithImage = new PopupWithImage('.popup-zoom');
 const instanceUserInfo = new UserInfo( {name: profileTitle.textContent, description: profileSubTitle.textContent} );
@@ -59,22 +109,10 @@ const popupProfileForm = new PopupWithForm('.popup_profile', () => {
 
 const popupPlaceForm = new PopupWithForm('.popup_new-place', () => { submitAddCard(evt)});
 
-const cardSection = new Section({
-  items: cardsArr,
-  renderer: (item) => {
-    const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
-    const cardElement = card.generateCard();
-    cardSection.addItem(cardElement);
-  }
-},
-".cards");
-
-cardSection.renderItems();
-
 function submitAddCard(evt) {
   evt.preventDefault();
-  const card = new Card(cardTitle.value, cardUrl.value, instancePopupWithImage.open.bind(instancePopupWithImage));
-  const cardElement = card.generateCard();
+  //const card = new Card(cardTitle.value, cardUrl.value, instancePopupWithImage.open.bind(instancePopupWithImage));
+  const cardElement = api.addNewCard(cardTitle.value, cardUrl.value);
   cards.prepend(cardElement);
   cardTitle.value = "";
   cardUrl.value = "";

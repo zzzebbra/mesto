@@ -14,7 +14,6 @@ export default class Popup {
   }
 
   _closePopupByMouse(evt) {
-    console.log("close by mouse click")
     const currentPopup = document.querySelector(".popup_opened");
     if (evt.target === currentPopup) { this.close() }
   }

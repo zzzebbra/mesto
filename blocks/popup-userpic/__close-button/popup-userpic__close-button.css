@@ -1,11 +1,11 @@
-.popup__close-button {
+.popup-userpic__close-button {
   width: 41px;
   height: 41px;
   border: 0;
   background: none;
   position: absolute;
-  top: -8%;
-  left: 100%;
+  top: -12%;
+  left: 99%;
   background-color: transparent;
   background-image: url(../../../images/close-icon.svg);
   background-position: center;
