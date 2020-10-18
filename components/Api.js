@@ -56,10 +56,10 @@ class Api {
         link: link
       })
     })
-      .then((res) => { if (res.ok) { return res.json() } })
+      .then((res) => { if (res.ok) {  return res.json() } })
       .catch((err) => console.log(err));
   }
-
+  //working
   deleteMyCard(cardId) {
     return fetch(`${this.BaseUrl}cards/${cardId}`, {
       method: 'DELETE',
@@ -73,7 +73,7 @@ class Api {
   }
 
   putLike(cardId) {
-    return fetch(`${this.BaseUrl}cards/${cardId}`, {
+    return fetch(`${this.BaseUrl}cards/likes/${cardId}`, {
       method: 'PUT',
       headers: {
         authorization: this.token,
@@ -85,7 +85,7 @@ class Api {
   }
 
   deleteLike(cardId) {
-    return fetch(`${this.BaseUrl}cards/${cardId}`, {
+    return fetch(`${this.BaseUrl}cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: this.token,
@@ -96,7 +96,20 @@ class Api {
     .catch((err) => console.log(err));
   }
 
-
+  updateAvatar(link) {
+    return fetch(`${this.BaseUrl}users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this.token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        avatar: link
+      })
+    })
+    .then((res) => { if (res.ok) { return res.json() } })
+    .catch((err) => console.log(err));
+  }
 
 }
 

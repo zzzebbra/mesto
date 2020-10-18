@@ -11,13 +11,13 @@
   background-position: center;
   background-size: contain;
 }
-.popup__close-button:hover {
+.popup-userpic__close-button:hover {
   opacity: 0.8;
   cursor: pointer;
 }
 
 @media screen and (max-width: 505px) {
-  .popup__close-button {
+  .popup-userpic__close-button {
     width: 35px;
     height: 35px;
     top: -11%;

@@ -9,6 +9,8 @@ import UserInfo from './UserInfo.js';
 import Api from './Api.js';
 
 const popupProfile = document.querySelector(".popup_profile");
+const popupProfileName = popupProfile.querySelector(".popup__input_name");
+const popupProfileDescription = popupProfile.querySelector(".popup__input_description");
 const popupPlace = document.querySelector(".popup_new-place");
 const profileForm = popupProfile.querySelector(".popup__form");
 const placeForm = popupPlace.querySelector(".popup__form");
@@ -19,47 +21,45 @@ const profileSubTitle = document.querySelector(".profile__subtitle");
 const placeFormContainer = popupPlace.querySelector(".popup__container");
 const nameInput = document.querySelector(".popup__input_name");
 const descriptionInput = document.querySelector(".popup__input_description");
-const cards = document.querySelector(".cards");
 const cardTitle = document.querySelector(".popup__input_place-name");
 const cardUrl = document.querySelector(".popup__input_url");
-// const cardsArr = [
-//   {
-//     name: 'Архыз',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-//   },
-//   {
-//     name: 'Челябинская область',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-//   },
-//   {
-//     name: 'Иваново',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-//   },
-//   {
-//     name: 'Камчатка',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-//   },
-//   {
-//     name: 'Холмогорский район',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-//   },
-//   {
-//     name: 'Байкал',
-//     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-//   }
-// ];
+const editAvatar = document.querySelector(".profile__photo-edit-button");
+const userPic = document.querySelector(".profile__photo");
+const newAvatarUrl = document.querySelector('.popup-userpic__input');
+const popupUserpicSubmitButton = document.querySelector('.popup-userpic__submit-button');
+const popupPlaceSubmitButton = document.querySelector('.popup__submit-button_place');
+const popupProfileSubmitButton = document.querySelector('.popup__submit-button_profile');
 
 const BaseUrl = "https://mesto.nomoreparties.co/v1/cohort-16/";
 const token = 'ecd5d904-ba49-4381-9016-a76df3cbb46c';
+const myIdOnServer = 'd9950d1e6ec066454d7e5681';
 
 const api = new Api(BaseUrl, token);
-
+let cardSection;
 api.getCards()
   .then((result) => {
-    const cardSection = new Section({
-      items: result,
+     cardSection = new Section({
+      items: result.reverse(),
       renderer: (item) => {
-        const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
+        const card = new Card(item.name, item.link, item._id, item.owner._id, item.likes, myIdOnServer, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
+          const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
+          api.deleteMyCard(item._id)
+          .then(()=> {
+            card.deleteCard();
+            PopupCardDelete.close()} )
+          });
+          PopupCardDelete.open.call(PopupCardDelete);
+          },
+          () => {
+            if(card.isLiked()) {
+            api.deleteLike(item._id)
+            .then((res)=> {
+              card.handleCounter(res.likes) } ) }
+            else {
+              api.putLike(item._id)
+              .then((res)=> {
+              card.handleCounter(res.likes) } ) }
+            });
         const cardElement = card.generateCard();
         cardSection.addItem(cardElement);
       }
@@ -68,42 +68,30 @@ api.getCards()
     cardSection.renderItems();
   });
 
-// api.getUserInfo();
-// api.setUserInfo();
-// api.addNewCard();
-
-// function getCards() {
-//   fetch('https://mesto.nomoreparties.co/v1/cohort-16/cards', {
-//     method: 'GET',
-//     headers: {
-//       authorization: 'ecd5d904-ba49-4381-9016-a76df3cbb46c'
-//     }
-//   })
-//     .then(res => res.json())
-//     .then((result) => {
-//       console.log(result);
-
-//        const cardSection = new Section({
-//         items: result,
-//         renderer: (item) => {
-//           const card = new Card(item.name, item.link, instancePopupWithImage.open.bind(instancePopupWithImage));
-//           const cardElement = card.generateCard();
-//           cardSection.addItem(cardElement);
-//         }
-//       },
-//       ".cards");
-//       cardSection.renderItems();
-//   });
-// }
-// getCards();
-
+  function showState(actionButton) {
+    actionButton.textContent = "Сохранение..."
+  }
 
 const instancePopupWithImage = new PopupWithImage('.popup-zoom');
-const instanceUserInfo = new UserInfo( {name: profileTitle.textContent, description: profileSubTitle.textContent} );
+
+let instanceUserInfo;
+
+api.getUserInfo()
+.then((res)=> {
+instanceUserInfo = new UserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
+instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
+profileTitle.textContent = instanceUserInfo.getUserInfo().name;
+profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
+userPic.src= instanceUserInfo.getUserInfo().avatar;
+} );
+
 const popupProfileForm = new PopupWithForm('.popup_profile', () => {
-  instanceUserInfo.setUserInfo({ nameInput: nameInput.value, descriptionInput: descriptionInput.value});
+  showState(popupProfileSubmitButton);
+  api.setUserInfo(popupProfileName.value,popupProfileDescription.value)
+ .then((res)=> {instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
   profileTitle.textContent = instanceUserInfo.getUserInfo().name;
   profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
+  popupProfileSubmitButton.textContent = 'Сохранить'} )
   popupProfileForm.close();
 });
 
@@ -111,9 +99,32 @@ const popupPlaceForm = new PopupWithForm('.popup_new-place', () => { submitAddCa
 
 function submitAddCard(evt) {
   evt.preventDefault();
-  //const card = new Card(cardTitle.value, cardUrl.value, instancePopupWithImage.open.bind(instancePopupWithImage));
-  const cardElement = api.addNewCard(cardTitle.value, cardUrl.value);
-  cards.prepend(cardElement);
+    showState(popupPlaceSubmitButton);
+    api.addNewCard(cardTitle.value, cardUrl.value)
+    .then((res) => {
+    const card = new Card(res.name, res.link, res._id, myIdOnServer, res.likes, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
+      const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
+        api.deleteMyCard(res._id)
+        .then(()=> {
+          card.deleteCard();
+          PopupCardDelete.close()} )
+        });
+        PopupCardDelete.open.call(PopupCardDelete)
+    },
+          () => {
+            if(card.isLiked()) {
+            api.deleteLike(item._id)
+            .then((res)=> {
+              card.handleCounter(res.likes) } ) }
+            else {
+              api.putLike(item._id)
+              .then((res)=> {
+              card.handleCounter(res.likes) } ) }
+            })
+    const cardElement = card.generateCard();
+    cardSection.addItem(cardElement);
+    popupPlaceSubmitButton.textContent = "Создать";
+   })
   cardTitle.value = "";
   cardUrl.value = "";
   popupPlaceForm.close();
@@ -132,6 +143,18 @@ function addButtonHandler() {
   popupPlaceForm.open();
 }
 
+function editAvatarHandler() {
+  const editAvatarPopup = new PopupWithForm('.popup-userpic', () => {
+    showState(popupUserpicSubmitButton);
+    api.updateAvatar(newAvatarUrl.value)
+    .then((res) => {userPic.src = res.avatar;
+      popupUserpicSubmitButton.textContent = "Сохранить"})
+    editAvatarPopup.close();
+  });
+  editAvatarPopup.open.call(editAvatarPopup)
+
+}
+
 const editForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
 const addForm =  new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
 editForm.enableValidation();
@@ -141,3 +164,6 @@ addForm.enableValidation();
 editButton.addEventListener("click", editButtonHandler);
 addButton.addEventListener('click', addButtonHandler);
 placeFormContainer.addEventListener('submit', submitAddCard);
+editAvatar.addEventListener('click', editAvatarHandler)
+
+export {myIdOnServer}

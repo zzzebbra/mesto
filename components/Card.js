@@ -1,8 +1,17 @@
+import {myIdOnServer} from './index.js'
+
 class Card {
-  constructor( name, link, handleCardClick ) {
+  constructor( name, link, cardId, ownerId, likesArr, myIdOnServer, handleCardClick, handleDeleteClick, handleLikeClick) {
     this.name = name;
     this.link = link;
+    this.cardId = cardId;
+    this.sownerId = ownerId;
+    this.likesArr = likesArr;
+    this.likesQuantity = likesArr.length;
     this.handleCardClick = handleCardClick;
+    this.handleDeleteClick = handleDeleteClick;
+    this.handleLikeClick = handleLikeClick;
+    this.myIdOnServer = myIdOnServer;
   }
 
   _cardContentNew() {
@@ -15,20 +24,45 @@ class Card {
 
     this._element.querySelector('.card__photo').src = this.link;
     this._element.querySelector('.card__text').textContent = this.name;
-    this._element.querySelector(".card__like").addEventListener('click', this.like);
-    this._element.querySelector(".card__delete-button").addEventListener('click', this.deleteCard.bind(this));
+    this._element.querySelector('.card__like-counter').textContent = this.likesQuantity;
+    this._element.querySelector(".card__like").addEventListener('click', this.handleLikeClick);
+    this._element.querySelector(".card__delete-button").addEventListener('click', this.handleDeleteClick);
     this._element.querySelector(".card__photo").addEventListener('click', () => this.handleCardClick(this.name, this.link));
+    this._whoIsOwner();
+    if ( this.isLiked() ) {this.like(); };
 
     return this._element;
   }
 
-  like(evt) {
-    evt.target.classList.toggle("card__like_active");
+  _whoIsOwner() {
+    if (this.ownerId !== myIdOnServer) { this._element.querySelector(".card__delete-button").remove() }
   }
 
-  deleteCard() {
-    this._element.closest(".card").remove();
+  isLiked() {
+    const hasMyLike = (element) => element._id === this.myIdOnServer;
+    return this.likesArr.some(hasMyLike);
   }
+
+  handleCounter(responseArr) {
+    const likeCounter = this._element.querySelector('.card__like-counter')
+    const likeButton = this._element.querySelector(".card__like")
+    if (!this.isLiked()) {
+      likeButton.classList.add('card__like_active'); likeCounter.textContent = String(parseInt(this.likesArr.length, 10) +1)
+    }
+    else {
+      likeButton.classList.remove('card__like_active'); likeCounter.textContent = String(parseInt(this.likesArr.length, 10) -1)
+    }
+    this.likesArr = responseArr
+   }
+
+  like() {
+    const likeButton = this._element.querySelector(".card__like")
+    likeButton.classList.toggle('card__like_active');
+  }
+
+   deleteCard() {
+     this._element.closest('.card').remove();
+   }
 
 }
 
