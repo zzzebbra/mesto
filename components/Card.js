@@ -5,7 +5,7 @@ class Card {
     this.name = name;
     this.link = link;
     this.cardId = cardId;
-    this.sownerId = ownerId;
+    this.ownerId = ownerId;
     this.likesArr = likesArr;
     this.likesQuantity = likesArr.length;
     this.handleCardClick = handleCardClick;

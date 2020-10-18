@@ -38,28 +38,33 @@ const api = new Api(BaseUrl, token);
 let cardSection;
 api.getCards()
   .then((result) => {
-     cardSection = new Section({
+    cardSection = new Section({
       items: result.reverse(),
       renderer: (item) => {
         const card = new Card(item.name, item.link, item._id, item.owner._id, item.likes, myIdOnServer, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
           const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
-          api.deleteMyCard(item._id)
-          .then(()=> {
-            card.deleteCard();
-            PopupCardDelete.close()} )
+            api.deleteMyCard(item._id)
+              .then(() => {
+                card.deleteCard();
+                PopupCardDelete.close()
+              })
           });
           PopupCardDelete.open.call(PopupCardDelete);
-          },
+        },
           () => {
-            if(card.isLiked()) {
-            api.deleteLike(item._id)
-            .then((res)=> {
-              card.handleCounter(res.likes) } ) }
+            if (card.isLiked()) {
+              api.deleteLike(item._id)
+                .then((res) => {
+                  card.handleCounter(res.likes)
+                })
+            }
             else {
               api.putLike(item._id)
-              .then((res)=> {
-              card.handleCounter(res.likes) } ) }
-            });
+                .then((res) => {
+                  card.handleCounter(res.likes)
+                })
+            }
+          });
         const cardElement = card.generateCard();
         cardSection.addItem(cardElement);
       }
@@ -68,63 +73,70 @@ api.getCards()
     cardSection.renderItems();
   });
 
-  function showState(actionButton) {
-    actionButton.textContent = "Сохранение..."
-  }
+function showState(actionButton) {
+  actionButton.textContent = "Сохранение..."
+}
 
 const instancePopupWithImage = new PopupWithImage('.popup-zoom');
 
 let instanceUserInfo;
 
 api.getUserInfo()
-.then((res)=> {
-instanceUserInfo = new UserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
-instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
-profileTitle.textContent = instanceUserInfo.getUserInfo().name;
-profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
-userPic.src= instanceUserInfo.getUserInfo().avatar;
-} );
+  .then((res) => {
+    instanceUserInfo = new UserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar });
+    instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar });
+    profileTitle.textContent = instanceUserInfo.getUserInfo().name;
+    profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
+    userPic.src = instanceUserInfo.getUserInfo().avatar;
+  });
 
 const popupProfileForm = new PopupWithForm('.popup_profile', () => {
   showState(popupProfileSubmitButton);
-  api.setUserInfo(popupProfileName.value,popupProfileDescription.value)
- .then((res)=> {instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar});
-  profileTitle.textContent = instanceUserInfo.getUserInfo().name;
-  profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
-  popupProfileSubmitButton.textContent = 'Сохранить'} )
+  api.setUserInfo(popupProfileName.value, popupProfileDescription.value)
+    .then((res) => {
+      instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar });
+      profileTitle.textContent = instanceUserInfo.getUserInfo().name;
+      profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
+      popupProfileSubmitButton.textContent = 'Сохранить'
+    })
   popupProfileForm.close();
 });
 
-const popupPlaceForm = new PopupWithForm('.popup_new-place', () => { submitAddCard(evt)});
+const popupPlaceForm = new PopupWithForm('.popup_new-place', () => { submitAddCard(evt) });
 
 function submitAddCard(evt) {
   evt.preventDefault();
-    showState(popupPlaceSubmitButton);
-    api.addNewCard(cardTitle.value, cardUrl.value)
+  showState(popupPlaceSubmitButton);
+  api.addNewCard(cardTitle.value, cardUrl.value)
     .then((res) => {
-    const card = new Card(res.name, res.link, res._id, myIdOnServer, res.likes, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
-      const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
-        api.deleteMyCard(res._id)
-        .then(()=> {
-          card.deleteCard();
-          PopupCardDelete.close()} )
+      const card = new Card(res.name, res.link, res._id, myIdOnServer, res.likes, myIdOnServer, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
+        const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
+          api.deleteMyCard(res._id)
+            .then(() => {
+              card.deleteCard();
+              PopupCardDelete.close()
+            })
         });
         PopupCardDelete.open.call(PopupCardDelete)
-    },
-          () => {
-            if(card.isLiked()) {
-            api.deleteLike(item._id)
-            .then((res)=> {
-              card.handleCounter(res.likes) } ) }
-            else {
-              api.putLike(item._id)
-              .then((res)=> {
-              card.handleCounter(res.likes) } ) }
-            })
-    const cardElement = card.generateCard();
-    cardSection.addItem(cardElement);
-    popupPlaceSubmitButton.textContent = "Создать";
-   })
+      },
+        () => {
+          if (card.isLiked()) {
+            api.deleteLike(res._id)
+              .then((res) => {
+                card.handleCounter(res.likes)
+              })
+          }
+          else {
+            api.putLike(res._id)
+              .then((res) => {
+                card.handleCounter(res.likes)
+              })
+          }
+        })
+      const cardElement = card.generateCard();
+      cardSection.addItem(cardElement);
+      popupPlaceSubmitButton.textContent = "Создать";
+    })
   cardTitle.value = "";
   cardUrl.value = "";
   popupPlaceForm.close();
@@ -147,8 +159,10 @@ function editAvatarHandler() {
   const editAvatarPopup = new PopupWithForm('.popup-userpic', () => {
     showState(popupUserpicSubmitButton);
     api.updateAvatar(newAvatarUrl.value)
-    .then((res) => {userPic.src = res.avatar;
-      popupUserpicSubmitButton.textContent = "Сохранить"})
+      .then((res) => {
+        userPic.src = res.avatar;
+        popupUserpicSubmitButton.textContent = "Сохранить"
+      })
     editAvatarPopup.close();
   });
   editAvatarPopup.open.call(editAvatarPopup)
@@ -156,7 +170,7 @@ function editAvatarHandler() {
 }
 
 const editForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
-const addForm =  new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
+const addForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
 editForm.enableValidation();
 addForm.enableValidation();
 
@@ -166,4 +180,4 @@ addButton.addEventListener('click', addButtonHandler);
 placeFormContainer.addEventListener('submit', submitAddCard);
 editAvatar.addEventListener('click', editAvatarHandler)
 
-export {myIdOnServer}
+export { myIdOnServer }
