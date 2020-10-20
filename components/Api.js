@@ -13,7 +13,6 @@ class Api {
       }
     })
       .then((res) => { if (res.ok) { return res.json() } })
-      .catch((err) => console.log(err));
   }
 //working
   getUserInfo() {
@@ -25,7 +24,6 @@ class Api {
       }
     })
       .then((res) => { if (res.ok) { return res.json() } })
-      .catch((err) => console.log(err));
   }
 //working
   setUserInfo(name, about) {
@@ -41,7 +39,6 @@ class Api {
       })
     })
     .then((res) => { if (res.ok) { return res.json() } })
-    .catch((err) => console.log(err));
   }
 //working
   addNewCard(name, link) {
@@ -57,7 +54,6 @@ class Api {
       })
     })
       .then((res) => { if (res.ok) {  return res.json() } })
-      .catch((err) => console.log(err));
   }
   //working
   deleteMyCard(cardId) {
@@ -69,7 +65,6 @@ class Api {
       }
     })
     .then((res) => { if (res.ok) { return res.json() } })
-    .catch((err) => console.log(err));
   }
 
   putLike(cardId) {
@@ -81,7 +76,6 @@ class Api {
       }
     })
     .then((res) => { if (res.ok) { return res.json() } })
-    .catch((err) => console.log(err));
   }
 
   deleteLike(cardId) {
@@ -93,7 +87,6 @@ class Api {
       }
     })
     .then((res) => { if (res.ok) { return res.json() } })
-    .catch((err) => console.log(err));
   }
 
   updateAvatar(link) {
@@ -108,7 +101,6 @@ class Api {
       })
     })
     .then((res) => { if (res.ok) { return res.json() } })
-    .catch((err) => console.log(err));
   }
 
 }

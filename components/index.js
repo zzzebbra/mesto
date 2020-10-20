@@ -23,12 +23,19 @@ const nameInput = document.querySelector(".popup__input_name");
 const descriptionInput = document.querySelector(".popup__input_description");
 const cardTitle = document.querySelector(".popup__input_place-name");
 const cardUrl = document.querySelector(".popup__input_url");
-const editAvatar = document.querySelector(".profile__photo-edit-button");
+const editAvatarButton = document.querySelector(".profile__photo-edit-button");
 const userPic = document.querySelector(".profile__photo");
 const newAvatarUrl = document.querySelector('.popup-userpic__input');
 const popupUserpicSubmitButton = document.querySelector('.popup-userpic__submit-button');
 const popupPlaceSubmitButton = document.querySelector('.popup__submit-button_place');
 const popupProfileSubmitButton = document.querySelector('.popup__submit-button_profile');
+const popupProfileInputElement = profileForm.querySelector('.popup__input');
+const popupPlaceInputElement = placeForm.querySelector('.popup__input');
+const inputProfileElementsArr = profileForm.querySelectorAll('.popup__input');
+const inputPlaceElementsArr = placeForm.querySelectorAll('.popup__input');
+const popupUserpic = document.querySelector('.popup-userpic');
+const popupUserpicForm = popupUserpic.querySelector('.popup__form');
+const inputUserpicElementsArr = popupUserpicForm.querySelectorAll('.popup__input');
 
 const BaseUrl = "https://mesto.nomoreparties.co/v1/cohort-16/";
 const token = 'ecd5d904-ba49-4381-9016-a76df3cbb46c';
@@ -48,6 +55,7 @@ api.getCards()
                 card.deleteCard();
                 PopupCardDelete.close()
               })
+              .catch((err) => console.log(err));
           });
           PopupCardDelete.open.call(PopupCardDelete);
         },
@@ -57,12 +65,14 @@ api.getCards()
                 .then((res) => {
                   card.handleCounter(res.likes)
                 })
+                .catch((err) => console.log(err));
             }
             else {
               api.putLike(item._id)
                 .then((res) => {
                   card.handleCounter(res.likes)
                 })
+                .catch((err) => console.log(err));
             }
           });
         const cardElement = card.generateCard();
@@ -71,7 +81,8 @@ api.getCards()
     },
       ".cards");
     cardSection.renderItems();
-  });
+  })
+  .catch((err) => console.log(err));
 
 function showState(actionButton) {
   actionButton.textContent = "Сохранение..."
@@ -88,7 +99,8 @@ api.getUserInfo()
     profileTitle.textContent = instanceUserInfo.getUserInfo().name;
     profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
     userPic.src = instanceUserInfo.getUserInfo().avatar;
-  });
+  })
+  .catch((err) => console.log(err));
 
 const popupProfileForm = new PopupWithForm('.popup_profile', () => {
   showState(popupProfileSubmitButton);
@@ -99,6 +111,7 @@ const popupProfileForm = new PopupWithForm('.popup_profile', () => {
       profileSubTitle.textContent = instanceUserInfo.getUserInfo().description;
       popupProfileSubmitButton.textContent = 'Сохранить'
     })
+    .catch((err) => console.log(err));
   popupProfileForm.close();
 });
 
@@ -116,6 +129,7 @@ function submitAddCard(evt) {
               card.deleteCard();
               PopupCardDelete.close()
             })
+            .catch((err) => console.log(err));
         });
         PopupCardDelete.open.call(PopupCardDelete)
       },
@@ -125,18 +139,21 @@ function submitAddCard(evt) {
               .then((res) => {
                 card.handleCounter(res.likes)
               })
+              .catch((err) => console.log(err));
           }
           else {
             api.putLike(res._id)
               .then((res) => {
                 card.handleCounter(res.likes)
               })
+              .catch((err) => console.log(err));
           }
         })
       const cardElement = card.generateCard();
       cardSection.addItem(cardElement);
       popupPlaceSubmitButton.textContent = "Создать";
     })
+    .catch((err) => console.log(err));
   cardTitle.value = "";
   cardUrl.value = "";
   popupPlaceForm.close();
@@ -147,10 +164,13 @@ function editButtonHandler(evt) {
   nameInput.value = instanceUserInfo.getUserInfo().name;
   descriptionInput.value = instanceUserInfo.getUserInfo().description;
   editForm.checkButtonState(profileForm);
+  addForm.clearInputError(inputProfileElementsArr, profileForm, popupProfileInputElement);
   popupProfileForm.open();
 }
 
 function addButtonHandler() {
+  addForm.clearInputError(inputPlaceElementsArr, placeForm, popupPlaceInputElement);
+  placeForm.reset();
   addForm.checkButtonState(placeForm);
   popupPlaceForm.open();
 }
@@ -163,21 +183,26 @@ function editAvatarHandler() {
         userPic.src = res.avatar;
         popupUserpicSubmitButton.textContent = "Сохранить"
       })
+      .catch((err) => console.log(err));
     editAvatarPopup.close();
   });
-  editAvatarPopup.open.call(editAvatarPopup)
+  editAvatar.clearInputError(inputUserpicElementsArr, popupUserpicForm, document.querySelector('.popup-userpic__input'));
+  editAvatarPopup.open.call(editAvatarPopup);
+  popupUserpicForm.reset();
 
 }
 
 const editForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
 const addForm = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
+const editAvatar = new FormValidator('.popup__form', '.popup__input', '.popup__submit-button', 'popup__submit-button-disabled', 'popup__input_type-error', 'popup__input-error-message_active');
 editForm.enableValidation();
 addForm.enableValidation();
+editAvatar.enableValidation();
 
 
 editButton.addEventListener("click", editButtonHandler);
 addButton.addEventListener('click', addButtonHandler);
 placeFormContainer.addEventListener('submit', submitAddCard);
-editAvatar.addEventListener('click', editAvatarHandler)
+editAvatarButton.addEventListener('click', editAvatarHandler)
 
 export { myIdOnServer }

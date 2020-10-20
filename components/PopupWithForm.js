@@ -34,8 +34,8 @@ export default class PopupWithForm extends Popup {
     const popupPlaceTemp = document.querySelector(".popup_new-place");
     const popupCardDeleteTemp = document.querySelector(".popup-delete");
     const popupUpdateAvatarTemp = document.querySelector(".popup-userpic");
-    const closeProfileButton = popupProfileTemp.querySelector(".popup__close-button");
-    const closePlaceButton = popupPlaceTemp.querySelector(".popup__close-button");
+    const closeProfileButton = popupProfileTemp.querySelector(".popup-profile__close-button");
+    const closePlaceButton = popupPlaceTemp.querySelector(".popup-place__close-button");
     const closeCardDeleteButton = popupCardDeleteTemp.querySelector(".popup-delete__close-button");
     const closeAvUpdateButton = popupUpdateAvatarTemp.querySelector(".popup-userpic__close-button");
     const submitCardDeleteButton = popupCardDeleteTemp.querySelector(".popup-delete__submit-button");
@@ -52,7 +52,9 @@ export default class PopupWithForm extends Popup {
   removeEventListenersFromPopup() {
     super.removeEventListenersFromPopup();
     const popupProfileTemp = document.querySelector(".popup_profile");
-    const closeProfileButton = popupProfileTemp.querySelector(".popup__close-button");
+    const closeProfileButton = popupProfileTemp.querySelector(".popup-profile__close-button");
+    const popupPlaceTemp = document.querySelector(".popup_new-place");
+    const closePlaceButton = popupPlaceTemp.querySelector(".popup-place__close-button");
     const popupCardDeleteTemp = document.querySelector(".popup-delete");
     const popupUpdateAvatarTemp = document.querySelector(".popup-userpic");
     const closeCardDeleteButton = popupCardDeleteTemp.querySelector(".popup-delete__close-button");
@@ -60,9 +62,11 @@ export default class PopupWithForm extends Popup {
     const closeAvUpdateButton = popupUpdateAvatarTemp.querySelector(".popup-userpic__close-button");
     const submitAvUpdateButton = popupUpdateAvatarTemp.querySelector(".popup-userpic__submit-button");
     closeProfileButton.removeEventListener('click', this.close);
+    closePlaceButton.removeEventListener('click', this.close);
     closeCardDeleteButton.removeEventListener('click', this.close);
-    submitCardDeleteButton.removeEventListener('click', this._submitForm);
     closeAvUpdateButton.removeEventListener('click', this.close);
+    popupProfileTemp.removeEventListener('submit', this._submitForm);
+    submitCardDeleteButton.removeEventListener('click', this._submitForm);
     submitAvUpdateButton.removeEventListener('click', this._submitForm);
   }
 }

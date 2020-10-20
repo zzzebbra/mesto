@@ -13,7 +13,11 @@ showInputError(formElement, inputElement, errorMessage) {
     inputElement.classList.add(this.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this.errorClass);
-  };
+};
+
+clearInputError(inputsArr, formElement, inputElement) {
+  inputsArr.forEach(inputElement => { this.hideInputError(formElement, inputElement) });
+}
 
 hasInvalidInput (inputList) {
   return inputList.some((inputElement) => {

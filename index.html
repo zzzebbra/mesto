@@ -37,7 +37,7 @@
     <div class="popup__container">
       <h2 class="popup__header">Редактировать профиль</h2>
       <form class="popup__form" action="#" name="popup_form" novalidate>
-        <button type="button" class="popup__close-button"></button>
+        <button type="button" class="popup__close-button popup-profile__close-button"></button>
         <input type="text" name="name" id="name" class="popup__input  popup__input_name" placeholder="Имя" minlength="2"
           maxlength="40" required>
         <p class="popup__input-error-message" id="name-error"></p>
@@ -53,7 +53,7 @@
     <div class="popup__container">
       <h2 class="popup__header">Новое место</h2>
       <form class="popup__form" action="#" name="popup_form popup_form_place" novalidate>
-        <button type="button" class="popup__close-button"></button>
+        <button type="button" class="popup__close-button popup-place__close-button"></button>
         <input type="text" name="place-name" id="place-name" class="popup__input popup__input_place-name"
           placeholder="Название" minlength="1" maxlength="30" required>
         <p class="popup__input-error-message" id="place-name-error"></p>
@@ -81,10 +81,13 @@
   <div class="popup-userpic">
     <div class="popup-userpic__container">
       <h2 class="popup-userpic__header">Обновить аватар</h2>
+      <form class="popup__form" action="#" name="popup_form popup_form_userpic" novalidate>
       <button type="button" class="popup-userpic__close-button"></button>
       <input type="url" name="userpic-url" id="userpic-url" class="popup__input popup__input_url popup-userpic__input"
         placeholder="Ссылка на картинку" required>
+        <p class="popup__input-error-message" id="userpic-url-error"></p>
       <button type="submit" class="popup__submit-button popup-userpic__submit-button">Сохранить</button>
+    </form>
     </div>
   </div>
   <template class="card-template">
