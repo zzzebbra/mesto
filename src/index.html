@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="pages/index.css"> -->
+  <title>Mesto</title>
+</head>
+
+<body class="body">
+  <div class="page">
+    <div class="header">
+      <img class="logo" src="./images/logo_mesto.svg" alt="Логотип">
+    </div>
+    <main class="content">
+      <section class="profile">
+        <div class="profile__photo-container">
+        <img class="profile__photo" src="#" alt="Аватар">
+        <img class="profile__photo-edit-button" src="./images/edit_profile-pic.svg" alt="Редактировать.">
+      </div>
+        <div class="profile__info">
+          <h1 class="profile__title"></h1>
+          <button class="profile__edit-button" type="button"></button>
+          <h2 class="profile__subtitle"></h2>
+        </div>
+        <button class="profile__add-button"></button>
+      </section>
+      <section class="cards">
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__text">© 2020 Mesto Russia</p>
+    </footer>
+  </div>
+  <div class="popup popup-profile">
+    <div class="popup__container">
+      <h2 class="popup__header">Редактировать профиль</h2>
+      <form class="popup__form" action="#" name="popup_form" novalidate>
+        <button type="button" class="popup__close-button"></button>
+        <input type="text" name="name" id="name" class="popup__input popup__input__profile_name" placeholder="Имя" minlength="2"
+          maxlength="40" required>
+        <p class="popup__input-error-message" id="name-error"></p>
+        <input type="text" name="description" id="description" class="popup__input  popup__input_description"
+          placeholder="Описание" minlength="2" maxlength="200" required>
+        <p class="popup__input-error-message" id="description-error"></p>
+        <button type="submit" class="popup__submit-button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup-place">
+    <div class="popup__container">
+      <h2 class="popup__header">Новое место</h2>
+      <form class="popup__form" action="#" name="popup_form popup_form_place" novalidate>
+        <button type="button" class="popup__close-button"></button>
+        <input type="text" name="place-name" id="place-name" class="popup__input popup__input_place-name"
+          placeholder="Название" minlength="2" maxlength="30" required>
+        <p class="popup__input-error-message" id="place-name-error"></p>
+        <input type="url" name="place-url" id="place-url" class="popup__input popup__input_url"
+          placeholder="Ссылка на картинку" required>
+        <p class="popup__input-error-message" id="place-url-error"></p>
+        <button type="submit" class="popup__submit-button">Создать</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup-zoom">
+    <div class="popup__container_zoom">
+      <img src="#" class="popup__image_zoom" alt="Фото места.">
+      <button type="button" class="popup__close-button popup__close-button_zoom"></button>
+      <p class="popup__caption_zoom"></p>
+    </div>
+  </div>
+  <div class="popup popup-delete">
+    <div class="popup__container_delete">
+      <h2 class="popup__header popup__header_delete">Вы уверены?</h2>
+      <button type="button" class="popup__close-button popup__close-button_delete"></button>
+      <button type="submit" class="popup__submit-button popup__submit-button_delete">Да</button>
+    </div>
+  </div>
+  <div class="popup popup-userpic">
+    <div class="popup__container popup__container_userpic">
+      <h2 class="popup__header">Обновить аватар</h2>
+      <form class="popup__form" action="#" name="popup_form popup_form_userpic" novalidate>
+      <button type="button" class="popup__close-button popup__close-button_userpic"></button>
+      <input type="url" name="userpic-url" id="userpic-url" class="popup__input popup__input_url"
+        placeholder="Ссылка на картинку" required>
+        <p class="popup__input-error-message" id="userpic-url-error"></p>
+      <button type="submit" class="popup__submit-button">Сохранить</button>
+    </form>
+    </div>
+  </div>
+  <template class="card-template">
+    <div class="card">
+      <img src="/" class="card__photo" alt="Фото места.">
+      <button class="card__delete-button"></button>
+      <h2 class="card__text"></h2>
+      <button type="button" class="card__like"></button>
+      <p class="card__like-counter">0</p>
+    </div>
+  </template>
+  <!-- <script type="module" src="./components/index.js"></script>
+  <script type="module" src="./components/Card.js"></script>
+  <script type="module" src="./components/FormValidator.js"></script>
+  <script type="module" src="./components/Popup.js"></script>
+  <script type="module" src="./components/PopupWithForm.js"></script>
+  <script type="module" src="./components/PopupWithImage.js"></script>
+  <script type="module" src="./components/Section.js"></script>
+  <script type="module" src="./components/UserInfo.js"></script> -->
+</body>
+
+</html>
