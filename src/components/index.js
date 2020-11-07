@@ -53,7 +53,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
   const instancePopupWithImage = new PopupWithImage('.popup-zoom');
   const popupProfileForm = new PopupWithForm('.popup-profile', () => {
-  showState(popupProfileSubmitButton);
+  showState(popupProfileSubmitButton, "Сохранение...");
   api.setUserInfo(popupProfileName.value, popupProfileDescription.value)
     .then((res) => {
       instanceUserInfo.setUserInfo({ nameInput: res.name, descriptionInput: res.about, avatar: res.avatar });
@@ -77,7 +77,7 @@ const popupPlaceForm = new PopupWithForm('.popup-place', (evt) => { submitAddCar
     renderer: (item) => {
       const card = new Card(item.name, item.link, item._id, item.owner._id, item.likes, myIdOnServer, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
         const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
-          showStateDeleting(submitButton);
+          showState(submitButton, "Удаление...");
           api.deleteMyCard(item._id)
             .then(() => {
               card.deleteCard();
@@ -112,23 +112,19 @@ const popupPlaceForm = new PopupWithForm('.popup-place', (evt) => { submitAddCar
   cardSection.renderItems();
 
 
-function showState(actionButton) {
-  actionButton.textContent = "Сохранение..."
-}
-
-function showStateDeleting(actionButton) {
-  actionButton.textContent = "Удаление..."
+function showState(actionButton, text) {
+  actionButton.textContent = text
 }
 
 function submitAddCard(evt) {
   evt.preventDefault();
-  showState(popupPlaceSubmitButton);
+  showState(popupPlaceSubmitButton, "Сохранение...");
   api.addNewCard(newCardTitle.value, popupPlaceUrl.value)
     .then((res) => {
       const card = new Card(res.name, res.link, res._id, myIdOnServer, res.likes, myIdOnServer, instancePopupWithImage.open.bind(instancePopupWithImage), () => {
         const PopupCardDelete = new PopupWithForm('.popup-delete', () => {
 
-          showStateDeleting(submitButton);
+          showState(submitButton, "Удаление...");
           api.deleteMyCard(res._id)
             .then(() => {
               card.deleteCard();
@@ -183,7 +179,7 @@ function addButtonHandler() {
 
 function editAvatarHandler() {
   const editAvatarPopup = new PopupWithForm('.popup-userpic', () => {
-    showState(popupUserpicSubmitButton);
+    showState(popupUserpicSubmitButton, "Сохранение...");
     api.updateAvatar(newUserpicUrl.value)
       .then((res) => {
         userPic.src = res.avatar;

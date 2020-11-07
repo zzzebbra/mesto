@@ -4,6 +4,8 @@ export default class PopupWithForm extends Popup {
   constructor(popup, submitForm) {
     super(popup);
     this._submitForm = submitForm;
+    this._closeButton = this._popup.querySelector(".popup__close-button");
+    this._submitButton = this._popup.querySelector(".popup__submit-button");
     this.close = this.close.bind(this);
     this.setEventListeners = this.setEventListeners.bind(this);
     this.removeEventListenersFromPopup = this.removeEventListenersFromPopup.bind(this);
@@ -30,19 +32,13 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    const currentPopup = document.querySelector(".popup_opened");
-    const closeButton = currentPopup.querySelector(".popup__close-button");
-    const submitButton = currentPopup.querySelector(".popup__submit-button");
-    closeButton.addEventListener('click', this.close);
-    submitButton.addEventListener('click', this._submitForm);
+    this._closeButton.addEventListener('click', this.close);
+    this._submitButton.addEventListener('click', this._submitForm);
   }
 
   removeEventListenersFromPopup() {
     super.removeEventListenersFromPopup();
-    const currentPopup = document.querySelector(".popup_opened");
-    const closeButton = currentPopup.querySelector(".popup__close-button");
-    const submitButton = currentPopup.querySelector(".popup__submit-button");
-    closeButton.removeEventListener('click', this.close);
-    submitButton.removeEventListener('click', this._submitForm);
+    this._closeButton.removeEventListener('click', this.close);
+    this._submitButton.removeEventListener('click', this._submitForm);
   }
 }
